@@ -76,65 +76,81 @@ export default class AutoRestGenerator {
     /**
      *
      * @param {string} entityIdNameOnUrl
+     * @return {AutoRestGenerator}
      */
     entityIdNameOnUrl(entityIdNameOnUrl){
         this.#entityIdNameOnUrl = entityIdNameOnUrl;
+        return this;
     }
 
     /**
      *
      * @param {SortableField<T>} sortableField
+     * @return {AutoRestGenerator}
      */
     sortableField(sortableField){
         this.#sortableFields.push(sortableField);
+        return this;
     }
 
     /**
      *
      * @param {ApiFilter<T>} filter
+     * @return {AutoRestGenerator}
      */
     filter(filter){
         this.#filters.push(filter);
+        return this;
     }
 
     /**
      *
      * @param {(entity:T) => Promise<T>} createEntityFn
+     * @return {AutoRestGenerator}
      */
     createEntityFn(createEntityFn){
         this.#createEntityFn = createEntityFn;
+        return this;
     }
 
     /**
      *
      * @param {(entity:T) => Promise<T>} updateEntityFn
+     * @return {AutoRestGenerator}
      */
     updateEntityFn(updateEntityFn){
         this.#updateEntityFn = updateEntityFn;
+        return this;
     }
 
     /**
      *
      * @param {(id:*) => Promise<T>} getEntityByIdFn
+     * @return {AutoRestGenerator}
      */
     getEntityByIdFn(getEntityByIdFn){
         this.#getEntityByIdFn = getEntityByIdFn;
+        return this;
     }
 
     /**
      *
      * @param {() => Promise<T[]>} getAllEntitiesFn
+     * @return {AutoRestGenerator}
      */
     getAllEntitiesFn(getAllEntitiesFn){
         this.#getAllEntitiesFn = getAllEntitiesFn;
+        return this;
     }
 
     /**
      *
      * @param {(id:*) => Promise<void>} deleteEntityByIdFn
+     * @return {AutoRestGenerator}
      */
     deleteEntityByIdFn(deleteEntityByIdFn){
         this.#deleteEntityByIdFn = deleteEntityByIdFn;
+        return this;
     }
 
 
