@@ -1,6 +1,6 @@
 {
   "name": "@potentii/auto-rest",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Automatic REST endpoints",
   "author": "Guilherme Reginaldo Ruella <potentii@gmail.com>",
   "license": "MIT",

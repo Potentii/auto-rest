@@ -255,7 +255,7 @@ export default class AutoRestGenerator {
         this.#router.post(`/`, async (req, res, next) => {
             const newEntity = RequestEnvelope.from(req.body)?.data;
 
-            if(newEntity?.id)
+            if(!newEntity?.id)
                 return res.status(400)
                     .json(ResponseEnvelope.withError(ApiError.create(`INVALID_ENTITY`, `Invalid entity`, [ ApiErrorDetail.create(`NEW_ENTITY_WITH_ID`, `New entities must have an ID set`, `id`, newEntity.id) ])))
                     .end();
