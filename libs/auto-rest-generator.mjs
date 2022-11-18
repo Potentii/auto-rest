@@ -8,7 +8,6 @@ import {
 } from "@potentii/rest-envelopes";
 
 
-
 /**
  * @template T
  */
@@ -257,7 +256,7 @@ export default class AutoRestGenerator {
 
             if(!newEntity?.id)
                 return res.status(400)
-                    .json(ResponseEnvelope.withError(ApiError.create(`INVALID_ENTITY`, `Invalid entity`, [ ApiErrorDetail.create(`NEW_ENTITY_WITH_ID`, `New entities must have an ID set`, `id`, newEntity.id) ])))
+                    .json(ResponseEnvelope.withError(ApiError.create(`INVALID_ENTITY`, `Invalid entity`, [ ApiErrorDetail.create(`NEW_ENTITY_WITH_ID`, `New entities must have an ID set`, `id`, newEntity?.id) ])))
                     .end();
 
             const savedEntity = await this.#createEntityFn(newEntity);
