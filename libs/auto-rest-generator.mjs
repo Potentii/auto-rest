@@ -254,9 +254,14 @@ export default class AutoRestGenerator {
         this.#router.post(`/`, async (req, res, next) => {
             const newEntity = RequestEnvelope.from(req.body)?.data;
 
-            if(!newEntity?.id)
+            if(!newEntity)
                 return res.status(400)
-                    .json(ResponseEnvelope.withError(ApiError.create(`INVALID_ENTITY`, `Invalid entity`, [ ApiErrorDetail.create(`NEW_ENTITY_WITH_ID`, `New entities must have an ID set`, `id`, newEntity?.id) ])))
+                    .json(ResponseEnvelope.withError(ApiError.create(`INVALID_ENTITY`, `Invalid entity`, [ ApiErrorDetail.create(`MISSING_DATA`, `Missing payload data`, `body:data`, newEntity) ])))
+                    .end();
+
+            if(newEntity?.id)
+                return res.status(400)
+                    .json(ResponseEnvelope.withError(ApiError.create(`INVALID_ENTITY`, `Invalid entity`, [ ApiErrorDetail.create(`NEW_ENTITY_WITH_ID`, `New entities must have empty ID`, `body:data.id`, newEntity?.id) ])))
                     .end();
 
             const savedEntity = await this.#createEntityFn(newEntity);
@@ -272,14 +277,19 @@ export default class AutoRestGenerator {
             const id = req.params[this.#entityIdNameOnUrl];
             const entityToUpdate = RequestEnvelope.from(req.body)?.data;
 
+            if(!entityToUpdate)
+                return res.status(400)
+                    .json(ResponseEnvelope.withError(ApiError.create(`INVALID_ENTITY`, `Invalid entity`, [ ApiErrorDetail.create(`MISSING_DATA`, `Missing payload data`, `body:data`, entityToUpdate) ])))
+                    .end();
+
             if(entityToUpdate?.id !== id)
                 return res.status(400)
-                    .json(ResponseEnvelope.withError(ApiError.create(`INVALID_ID`, `Invalid ID`, [ ApiErrorDetail.create(`ID_MISMATCH`, `Id from the entity and from the path are not the same`, `id`, entityToUpdate.id) ])))
+                    .json(ResponseEnvelope.withError(ApiError.create(`INVALID_ID`, `Invalid ID`, [ ApiErrorDetail.create(`ID_MISMATCH`, `Id from the entity and from the path are not the same`, `body:data.id`, entityToUpdate.id) ])))
                     .end();
 
             if(!entityToUpdate?.id)
                 return res.status(400)
-                    .json(ResponseEnvelope.withError(ApiError.create(`INVALID_ENTITY`, `Invalid entity`, [ ApiErrorDetail.create(`EDIT_ENTITY_WITHOUT_ID`, `Existing entities must have an ID set`, `id`, entityToUpdate.id) ])))
+                    .json(ResponseEnvelope.withError(ApiError.create(`INVALID_ENTITY`, `Invalid entity`, [ ApiErrorDetail.create(`EDIT_ENTITY_WITHOUT_ID`, `Existing entities must have an ID set`, `body:data.id`, entityToUpdate.id) ])))
                     .end();
 
             const savedEntity = await this.#updateEntityFn(entityToUpdate);
